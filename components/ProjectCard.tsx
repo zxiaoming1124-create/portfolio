@@ -1,57 +1,66 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
 
 interface ProjectCardProps {
   title: string
-  tags: string[]
+  subtitle: string
+  eyebrow: string
   period: string
-  description?: string
   href?: string
   index?: number
   imageSrc?: string
   imageLabel?: string
 }
 
-export default function ProjectCard({ title, tags, period, description, href, index = 0, imageSrc, imageLabel }: ProjectCardProps) {
+export default function ProjectCard({
+  title,
+  subtitle,
+  eyebrow,
+  period,
+  href,
+  index = 0,
+  imageSrc,
+  imageLabel,
+}: ProjectCardProps) {
   const Tag = href ? 'a' : 'div'
+  const isClickable = !!href
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={!isClickable ? 'opacity-40' : ''}
     >
       <Tag
         {...(href ? { href } : {})}
-        className={`group block ${href ? 'cursor-pointer' : 'cursor-default opacity-50'}`}
+        className={`group block rounded-2xl overflow-hidden ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
       >
-        {/* Image area */}
-        <div className="w-full aspect-video rounded-2xl overflow-hidden bg-[#f3f3f3] mb-5 transition-all duration-300 group-hover:opacity-90">
-          {imageSrc
-            ? <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
-            : <div className="w-full h-full flex items-center justify-center">
-                <p className="text-xs text-[#bbb]">{imageLabel ?? 'Image coming soon'}</p>
-              </div>
-          }
+        {/* Image */}
+        <div className="w-full aspect-[4/3] bg-[#e2e0dc]">
+          {imageSrc ? (
+            <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <p className="text-sm text-[#bbb]">{imageLabel ?? 'Image coming soon'}</p>
+            </div>
+          )}
         </div>
 
-        {/* Text */}
-        <div className="flex items-start justify-between gap-4 px-1">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="text-[12px] text-[#999]">{period}</span>
-              {tags.map(tag => (
-                <span key={tag} className="text-[12px] text-[#999]">· {tag}</span>
-              ))}
-            </div>
-            <h3 className="text-[18px] font-medium text-[#111] leading-snug">{title}</h3>
-            {description && <p className="text-[14px] text-[#999] mt-1.5 leading-relaxed">{description}</p>}
-          </div>
-          {href && (
-            <ArrowUpRight size={18} className="text-[#ccc] group-hover:text-[#111] transition-colors flex-shrink-0 mt-1" />
-          )}
+        {/* Text bar */}
+        <div
+          className={`px-6 py-5 bg-white transition-colors duration-300 ${isClickable ? 'group-hover:bg-[#5B8FBF]' : ''}`}
+        >
+          <p className={`text-[12px] mb-1.5 transition-colors duration-300 ${isClickable ? 'text-[#999] group-hover:text-white/60' : 'text-[#999]'}`}>
+            {eyebrow}
+          </p>
+          <h3 className={`text-[20px] font-medium leading-snug mb-1.5 transition-colors duration-300 ${isClickable ? 'text-[#111] group-hover:text-white' : 'text-[#111]'}`}>
+            {subtitle}
+          </h3>
+          <p className={`text-[12px] transition-colors duration-300 ${isClickable ? 'text-[#999] group-hover:text-white/60' : 'text-[#999]'}`}>
+            {period}
+          </p>
         </div>
       </Tag>
     </motion.div>

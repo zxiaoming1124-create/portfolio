@@ -1,9 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
+import BackButton from '@/components/BackButton'
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 12 },
@@ -15,9 +14,9 @@ export default function CiaoPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <motion.div {...fade(0)} className="mb-10">
-        <Link href="/project" className="inline-flex items-center gap-1.5 text-sm text-[#0a0a0a]/40 hover:text-[#0a0a0a] transition-colors mb-8">
-          <ArrowLeft size={14} /> All Projects
-        </Link>
+        <div className="mb-8">
+          <BackButton />
+        </div>
         <p className="text-[11px] text-[#0a0a0a]/30 uppercase tracking-widest mb-3">Spring 2025 · 10 Weeks</p>
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight mb-4">
           Ciao — A Social Experience Platform for International Students
@@ -196,8 +195,13 @@ export default function CiaoPage() {
 
 function Section({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
   return (
-    <motion.section {...{ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay } }} className="mb-12">
-      <p className="text-[10px] text-[#0a0a0a]/30 uppercase tracking-widest mb-4" style={{ letterSpacing: '1.5px' }}>{title}</p>
+    <motion.section
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay }}
+      className="border-t border-black/[0.08] pt-10 mb-12"
+    >
+      <p className="text-[10px] font-medium uppercase mb-5 text-[#5B8FBF]" style={{ letterSpacing: '2px' }}>{title}</p>
       <div className="text-[14px] text-[#0a0a0a]/65 leading-relaxed space-y-3">{children}</div>
     </motion.section>
   )
