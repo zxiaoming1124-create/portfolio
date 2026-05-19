@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "(lsof -ti :3001 >/dev/null 2>&1 || (export NVM_DIR=\"$HOME/.nvm\" && source \"$NVM_DIR/nvm.sh\" && cd /Users/apple/Desktop/project/portfolio && npm run dev -- --port 3001 >>/tmp/portfolio-next.log 2>&1 &)) && sleep 5 && open http://localhost:3001",
+            "async": true,
+            "statusMessage": "启动开发服务器并打开浏览器..."
+          }
+        ]
+      }
+    ]
+  }
+}
