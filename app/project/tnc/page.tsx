@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import BackButton from '@/components/BackButton'
+import SectionNav from '@/components/SectionNav'
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 12 },
@@ -10,9 +11,21 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.4, delay },
 })
 
+const sections = [
+  { id: 'project-overview', title: 'Overview' },
+  { id: 'research', title: 'Research' },
+  { id: 'audience', title: 'Audience' },
+  { id: 'system', title: 'System' },
+  { id: 'structure', title: 'Structure' },
+  { id: 'participation', title: 'Participation' },
+  { id: 'reflection', title: 'Reflection' },
+]
+
 export default function TNCPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
+      <SectionNav sections={sections} />
+
       <motion.div {...fade(0)} className="mb-10">
         <div className="mb-8">
           <BackButton />
@@ -44,17 +57,17 @@ export default function TNCPage() {
         ))}
       </motion.div>
 
-      <Section title="Project Overview" delay={0.12}>
+      <Section id="project-overview" title="Project Overview" delay={0.12}>
         <p>This project rethinks how conservation is seen, understood, and acted upon. I led research and experience design to translate fragmented communication into a more visible, connected engagement system — helping broader audiences move from awareness to participation.</p>
       </Section>
 
-      <Section title="Research Phase" delay={0.14}>
+      <Section id="research" title="Research Phase" delay={0.14}>
         <p>This phase focused on the existing communication ecosystem — identifying where visibility was strong, where pathways broke down, and how current touchpoints compared with stronger conservation organizations and best practices.</p>
         <p>Despite its global impact, TNC Georgia was struggling to connect with broader audiences beyond its existing donor base.</p>
         <ImagePlaceholder label="public/images/tnc/research.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Audience Segmentation" delay={0.16}>
+      <Section id="audience" title="Audience Segmentation" delay={0.16}>
         <p>Based on research patterns, we reframed TNC Georgia's outreach into four audience groups with different motivations, expectations, and preferred ways of participating — moving from one primary donor audience to four engagement segments.</p>
         <div className="rounded-2xl border border-black/[0.06] bg-white p-5">
           <p className="text-[11px] text-[#0a0a0a]/30 uppercase tracking-widest mb-2">Example Persona</p>
@@ -63,12 +76,12 @@ export default function TNCPage() {
         <ImagePlaceholder label="public/images/tnc/audience.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Connected Engagement System" delay={0.18}>
+      <Section id="system" title="Connected Engagement System" delay={0.18}>
         <p>Rather than redesigning isolated touchpoints, this solution reorganizes TNC's communication into a more connected system — bringing together digital and physical channels to support clearer discovery, stronger participation, and long-term engagement.</p>
         <ImagePlaceholder label="public/images/tnc/system.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Structuring Understanding Across Channels" delay={0.2}>
+      <Section id="structure" title="Structuring Understanding Across Channels" delay={0.2}>
         <p className="mb-5">The website and supporting materials were reorganized into a clearer information path, helping people understand where to go, what matters most, and what to do next.</p>
         <div className="space-y-2 mb-6">
           {[
@@ -99,7 +112,7 @@ export default function TNCPage() {
         </div>
       </Section>
 
-      <Section title="Turning Awareness Into Participation" delay={0.22}>
+      <Section id="participation" title="Turning Awareness Into Participation" delay={0.22}>
         <p className="mb-5">Beyond making information visible and understandable, the system was extended into more active touchpoints that invited people to join, return, and participate over time.</p>
         <div className="space-y-2 mb-6">
           {[
@@ -117,7 +130,7 @@ export default function TNCPage() {
         <ImagePlaceholder label="public/images/tnc/campaigns.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Reflection" delay={0.24}>
+      <Section id="reflection" title="Reflection" delay={0.24}>
         <blockquote className="border-l-2 border-black/10 pl-4 text-[14px] text-[#0a0a0a]/60 italic leading-relaxed">
           Clarity, hierarchy, and continuity do more than improve presentation. They shape whether people understand what matters, trust what they see, and feel ready to take action.
         </blockquote>
@@ -127,9 +140,10 @@ export default function TNCPage() {
   )
 }
 
-function Section({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
+function Section({ id, title, children, delay = 0 }: { id: string; title: string; children: React.ReactNode; delay?: number }) {
   return (
     <motion.section
+      id={id}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}

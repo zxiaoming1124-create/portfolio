@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import BackButton from '@/components/BackButton'
+import SectionNav from '@/components/SectionNav'
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 12 },
@@ -10,9 +11,23 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.4, delay },
 })
 
+const sections = [
+  { id: 'context', title: 'Context' },
+  { id: 'my-role', title: 'My Role' },
+  { id: 'problem-statement', title: 'Problem' },
+  { id: 'key-insights', title: 'Key Insights' },
+  { id: 'strategy', title: 'Strategy' },
+  { id: 'prototype-iterations', title: 'Iterations' },
+  { id: 'before-vs-after', title: 'Before vs After' },
+  { id: 'core-features', title: 'Core Features' },
+  { id: 'reflection', title: 'Reflection' },
+]
+
 export default function NestThermostatPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
+      <SectionNav sections={sections} />
+
       <motion.div {...fade(0)} className="mb-10">
         <div className="mb-8">
           <BackButton />
@@ -44,20 +59,20 @@ export default function NestThermostatPage() {
         ))}
       </motion.div>
 
-      <Section title="Context" delay={0.12}>
+      <Section id="context" title="Context" delay={0.12}>
         <p>While Nest presents detailed energy metrics, it lacks a clear financial narrative that supports real-time decision-making. This redesign reframes energy consumption into transparent cost feedback — shifting users from passive monitoring to active, cost-aware climate control.</p>
       </Section>
 
-      <Section title="My Role" delay={0.14}>
+      <Section id="my-role" title="My Role" delay={0.14}>
         <p>I led the end-to-end redesign of the Nest Thermostat mobile experience, defining a "Green &amp; Affordable" product strategy that translates energy data into clear financial impact and behavioral feedback. I developed the interaction framework, visual system, and sustainability feedback model — aligning user research, system constraints, and business considerations into a cohesive product direction.</p>
       </Section>
 
-      <Section title="Problem Statement" delay={0.16}>
+      <Section id="problem-statement" title="Problem Statement" delay={0.16}>
         <p className="mb-5">Users seeking an eco-friendly and affordable smart thermostat often feel overwhelmed by complex interfaces and unclear energy feedback. Current products fail to balance cost-efficiency, environmental awareness, and usability for everyday households.</p>
         <div className="grid sm:grid-cols-2 gap-4">
           {[
             { title: 'Unclear System Logic', desc: 'Users are unsure how the system decides when to adjust, causing confusion and distrust.' },
-            { title: 'Invisible Energy Impact', desc: 'Users can\'t see how their actions save energy, reducing motivation to stay eco-friendly.' },
+            { title: 'Invisible Energy Impact', desc: "Users can't see how their actions save energy, reducing motivation to stay eco-friendly." },
           ].map(item => (
             <div key={item.title} className="rounded-xl border border-black/[0.06] bg-white p-5">
               <p className="text-[13px] font-medium mb-1.5">{item.title}</p>
@@ -70,13 +85,13 @@ export default function NestThermostatPage() {
         </blockquote>
       </Section>
 
-      <Section title="Key Insights" delay={0.18}>
+      <Section id="key-insights" title="Key Insights" delay={0.18}>
         <blockquote className="border-l-2 border-black/10 pl-4 text-[15px] text-[#0a0a0a]/70 italic leading-relaxed">
           Users are not motivated by "saving energy" itself, but by seeing how their daily actions translate into real money and comfort.
         </blockquote>
       </Section>
 
-      <Section title="Strategy" delay={0.2}>
+      <Section id="strategy" title="Strategy" delay={0.2}>
         <p className="mb-5">Convert Sustainability Into Economic Visibility — instead of presenting abstract energy metrics, I chose to visualize savings in monetary terms.</p>
         <div className="grid sm:grid-cols-3 gap-3">
           {['Make energy impact visible', 'Increase User Trust', 'Reduce Cognitive Load'].map(s => (
@@ -85,7 +100,7 @@ export default function NestThermostatPage() {
         </div>
       </Section>
 
-      <Section title="Prototype Iterations" delay={0.22}>
+      <Section id="prototype-iterations" title="Prototype Iterations" delay={0.22}>
         <div className="space-y-8">
           {[
             { n: '01', title: 'Interaction Logic Exploration', body: 'This first prototype exposed a structural issue: users needed to move across multiple layers to access scheduling, energy feedback, and confirmation states. I chose to flatten the navigation hierarchy, prioritizing immediacy over structural purity.' },
@@ -102,7 +117,7 @@ export default function NestThermostatPage() {
         </div>
       </Section>
 
-      <Section title="Before vs After" delay={0.24}>
+      <Section id="before-vs-after" title="Before vs After" delay={0.24}>
         <p className="text-[14px] text-[#0a0a0a]/55 leading-relaxed mb-6">The redesigned home screen surfaces savings directly — making energy impact concrete and personally meaningful.</p>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
@@ -116,7 +131,7 @@ export default function NestThermostatPage() {
         </div>
       </Section>
 
-      <Section title="Core Features" delay={0.26}>
+      <Section id="core-features" title="Core Features" delay={0.26}>
         <div className="grid sm:grid-cols-2 gap-3">
           {['Make Saving Personal.', 'Eco. Simple.', 'Learn by Doing.', 'Set it once. Save every day.', 'Your energy. Under control.', 'Clear and Honest.', 'See Where Your Money Goes.'].map(f => (
             <div key={f} className="rounded-xl border border-black/[0.06] bg-white px-4 py-3 text-[13px] font-medium">{f}</div>
@@ -127,16 +142,17 @@ export default function NestThermostatPage() {
         </div>
       </Section>
 
-      <Section title="Reflection" delay={0.28}>
+      <Section id="reflection" title="Reflection" delay={0.28}>
         <p>In future iterations, I would validate these assumptions through usability testing and behavioral metrics. The core theme throughout: turning abstract sustainability into concrete daily behavior.</p>
       </Section>
     </div>
   )
 }
 
-function Section({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
+function Section({ id, title, children, delay = 0 }: { id: string; title: string; children: React.ReactNode; delay?: number }) {
   return (
     <motion.section
+      id={id}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}

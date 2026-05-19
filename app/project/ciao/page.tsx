@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import BackButton from '@/components/BackButton'
+import SectionNav from '@/components/SectionNav'
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 12 },
@@ -10,9 +11,26 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.4, delay },
 })
 
+const sections = [
+  { id: 'project-overview', title: 'Overview' },
+  { id: 'my-role', title: 'My Role' },
+  { id: 'research', title: 'Research' },
+  { id: 'key-findings', title: 'Key Findings' },
+  { id: 'key-insights', title: 'Key Insights' },
+  { id: 'persona', title: 'Persona' },
+  { id: 'how-might-we', title: 'HMW' },
+  { id: 'solution-strategy', title: 'Strategy' },
+  { id: 'core-user-flow', title: 'User Flow' },
+  { id: 'iterations', title: 'Iterations' },
+  { id: 'final-product', title: 'Final' },
+  { id: 'reflection', title: 'Reflection' },
+]
+
 export default function CiaoPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
+      <SectionNav sections={sections} />
+
       <motion.div {...fade(0)} className="mb-10">
         <div className="mb-8">
           <BackButton />
@@ -44,15 +62,15 @@ export default function CiaoPage() {
         ))}
       </motion.div>
 
-      <Section title="Project Overview" delay={0.12}>
+      <Section id="project-overview" title="Project Overview" delay={0.12}>
         <p>International students often arrive on campus with the intention to socialize, yet struggle to take the first step due to uncertainty, social pressure, and lack of structured support. Through 48+ surveys, 10+ interviews, and cultural probes, we identified that the problem is not a lack of events, but a lack of confidence and clarity in navigating them.</p>
       </Section>
 
-      <Section title="My Role" delay={0.14}>
+      <Section id="my-role" title="My Role" delay={0.14}>
         <p>As UX Lead, I structured Ciao's core experience, defining the end-to-end journey from onboarding to event participation. I led wireframing, prototyping, and usability validation, balancing trust, clarity, and emotional engagement for international students.</p>
       </Section>
 
-      <Section title="Research" delay={0.16}>
+      <Section id="research" title="Research" delay={0.16}>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[['53%', 'Feel socially isolated'], ['86%', 'Struggle with time management'], ['48+', 'Surveys conducted'], ['10+', 'Interviews conducted']].map(([n, l]) => (
             <div key={l} className="rounded-xl border border-black/[0.06] bg-white p-4 text-center">
@@ -64,20 +82,20 @@ export default function CiaoPage() {
         <ImagePlaceholder label="public/images/ciao/research.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Key Findings" delay={0.18}>
+      <Section id="key-findings" title="Key Findings" delay={0.18}>
         <p>Students reported feeling overwhelmed by too many unfiltered options, unsure which events were suitable for them, and anxious about attending alone. As a result, many default to passive behaviors — staying in their rooms, waiting for invitations, or missing opportunities altogether.</p>
         <blockquote className="border-l-2 border-black/10 pl-4 text-[14px] text-[#0a0a0a]/60 italic leading-relaxed">
           The core design challenge is not just improving event discovery, but reducing social friction and enabling confident first participation.
         </blockquote>
       </Section>
 
-      <Section title="Key Insights" delay={0.2}>
+      <Section id="key-insights" title="Key Insights" delay={0.2}>
         <blockquote className="border-l-2 border-black/10 pl-4 text-[15px] text-[#0a0a0a]/70 italic leading-relaxed">
           Users are not motivated by "going out" itself, but by feeling safe, supported, and invited.
         </blockquote>
       </Section>
 
-      <Section title="Persona" delay={0.22}>
+      <Section id="persona" title="Persona" delay={0.22}>
         <div className="rounded-2xl border border-black/[0.06] bg-white p-6 space-y-3">
           {[
             ['Context', 'International graduate student new to campus. Wants to build real social connections, but feels unsafe joining activities alone.'],
@@ -93,7 +111,7 @@ export default function CiaoPage() {
         </div>
       </Section>
 
-      <Section title="How Might We?" delay={0.24}>
+      <Section id="how-might-we" title="How Might We?" delay={0.24}>
         <div className="space-y-2">
           {[
             'How might we help international students discover events without feeling overwhelmed?',
@@ -105,7 +123,7 @@ export default function CiaoPage() {
         </div>
       </Section>
 
-      <Section title="Solution Strategy" delay={0.26}>
+      <Section id="solution-strategy" title="Solution Strategy" delay={0.26}>
         <div className="grid sm:grid-cols-3 gap-4 mb-6">
           {[
             { title: 'Reduce Overwhelm', desc: 'Make event discovery simple and curated.' },
@@ -121,7 +139,7 @@ export default function CiaoPage() {
         <ImagePlaceholder label="public/images/ciao/sitemap.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Core User Flow" delay={0.28}>
+      <Section id="core-user-flow" title="Core User Flow" delay={0.28}>
         <div className="flex flex-wrap gap-2 mb-6">
           {['Home', 'Event Detail', 'Calendar', 'Confirmation', 'Chat'].map((step, i) => (
             <div key={step} className="flex items-center gap-2">
@@ -134,7 +152,7 @@ export default function CiaoPage() {
         <ImagePlaceholder label="public/images/ciao/user-flow.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Iterations After User Testing" delay={0.3}>
+      <Section id="iterations" title="Iterations After User Testing" delay={0.3}>
         <p className="mb-6">14 participants, 4 key user flows tested.</p>
         <div className="space-y-8">
           {[
@@ -147,8 +165,8 @@ export default function CiaoPage() {
             },
             {
               title: 'Visual Hierarchy & Time Grouping',
-              before: 'Events were listed in a single stream, making it hard to distinguish today\'s from upcoming.',
-              after: 'Events are now grouped by time, clearly separating today\'s from upcoming.',
+              before: "Events were listed in a single stream, making it hard to distinguish today's from upcoming.",
+              after: "Events are now grouped by time, clearly separating today's from upcoming.",
               stats: ['79% found new structure easier to understand', '71% felt more confident planning'],
               img: 'hierarchy',
             },
@@ -181,11 +199,11 @@ export default function CiaoPage() {
         </div>
       </Section>
 
-      <Section title="Final Product" delay={0.32}>
+      <Section id="final-product" title="Final Product" delay={0.32}>
         <ImagePlaceholder label="public/images/ciao/final.png" aspect="aspect-video" />
       </Section>
 
-      <Section title="Reflection & Takeaways" delay={0.34}>
+      <Section id="reflection" title="Reflection & Takeaways" delay={0.34}>
         <p>Users initially hesitated at the "Create" menu due to clutter and uncertainty. By splitting event and post creation into clearer categories, I helped users take action faster with more confidence.</p>
         <p>This project reminded me how small interface changes — like reordering actions or simplifying copy — can significantly reduce user hesitation. I learned the value of designing with clarity and testing early.</p>
       </Section>
@@ -193,9 +211,10 @@ export default function CiaoPage() {
   )
 }
 
-function Section({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
+function Section({ id, title, children, delay = 0 }: { id: string; title: string; children: React.ReactNode; delay?: number }) {
   return (
     <motion.section
+      id={id}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}
