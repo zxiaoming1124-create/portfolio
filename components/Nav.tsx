@@ -41,7 +41,9 @@ export default function Nav() {
           {navLink('/project', 'Work')}
           {navLink('/about', 'About')}
           <a
-            href="#"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-[18px] text-[#aaa] hover:text-[#111] tracking-wide transition-colors"
             style={{ fontFamily: 'var(--font-geist-mono), Courier New, monospace' }}
           >

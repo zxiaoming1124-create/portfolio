@@ -52,10 +52,12 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  return (
-    <div className="w-full px-14 flex flex-col lg:flex-row pt-16 pb-32 relative">
+  const toggleLayout = () => setLayout(l => l === 'single' ? 'grid' : 'single')
 
-      {/* Left zone — 48% wide, content pinned to 310px */}
+  return (
+    <div className="w-full px-14 flex flex-col lg:flex-row pt-16 pb-32">
+
+      {/* Left zone — sticky aside */}
       <motion.aside
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,13 +65,14 @@ export default function Home() {
         className="lg:w-[48%] flex-shrink-0 lg:sticky lg:top-24 lg:self-start"
       >
         <div className="w-full lg:w-[310px]">
-          {/* Square avatar */}
-          <div className="w-full aspect-square rounded-2xl bg-[#e2e0dc] mb-7 overflow-hidden relative">
+
+          {/* Circular avatar — no background container, adaptive to any replacement image */}
+          <div className="relative w-[220px] h-[220px] rounded-full overflow-hidden mb-7">
             <Image
               src="/images/avatar.png"
               alt="Xiaoming Zhang"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
             />
           </div>
@@ -98,7 +101,9 @@ export default function Home() {
               LinkedIn <span className="text-[12px]">↗</span>
             </a>
             <a
-              href="#"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-[15px] text-[#111] hover:opacity-50 transition-opacity w-fit"
             >
               Resume <span className="text-[12px]">↗</span>
@@ -107,23 +112,32 @@ export default function Home() {
         </div>
       </motion.aside>
 
-      {/* Right zone — projects */}
-      <div className="flex-1 min-w-0 relative">
+      {/* Middle zone — project cards */}
+      <div className="flex-1 min-w-0">
+        <motion.div
+          layout
+          className={`pt-12 ${layout === 'grid' ? 'grid grid-cols-2 gap-6' : 'flex flex-col gap-10'}`}
+        >
+          {projects.map((project, i) => (
+            <ProjectCard key={project.title} {...project} index={i} />
+          ))}
+        </motion.div>
+      </div>
 
-        {/* Change layout button */}
-        <div className="absolute -top-1 right-0 flex flex-col items-center gap-2">
+      {/* Right control column — desktop only, never overlaps cards */}
+      <div className="hidden lg:flex flex-col items-center gap-3 w-20 flex-shrink-0 lg:sticky lg:top-24 lg:self-start pt-11">
+        <button
+          onClick={toggleLayout}
+          className="flex flex-col items-center gap-2.5 group"
+          aria-label="Toggle layout"
+        >
           <span
-            className="text-[11px] text-[#bbb] cursor-pointer hover:text-[#111] transition-colors select-none"
+            className="text-[11px] text-[#bbb] group-hover:text-[#111] transition-colors select-none text-center leading-snug"
             style={MONO}
-            onClick={() => setLayout(l => l === 'single' ? 'grid' : 'single')}
           >
-            Change layout
+            Change<br />layout
           </span>
-          <button
-            onClick={() => setLayout(l => l === 'single' ? 'grid' : 'single')}
-            className="w-9 h-9 rounded-full border border-[#ccc] flex items-center justify-center text-[#999] hover:border-[#111] hover:text-[#111] transition-colors"
-            aria-label="Toggle layout"
-          >
+          <div className="w-9 h-9 rounded-full border border-[#ccc] flex items-center justify-center text-[#999] group-hover:border-[#111] group-hover:text-[#111] transition-colors">
             {layout === 'single' ? (
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.2"/>
@@ -137,41 +151,30 @@ export default function Home() {
                 <rect x="1" y="7" width="12" height="4" rx="1" stroke="currentColor" strokeWidth="1.2"/>
               </svg>
             )}
-          </button>
-        </div>
+          </div>
+        </button>
 
-        {/* Cards */}
-        <motion.div
-          layout
-          className={`pt-12 ${layout === 'grid' ? 'grid grid-cols-2 gap-6' : 'flex flex-col gap-10'}`}
-        >
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} {...project} index={i} />
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Scroll down hint — fixed right edge, fades out on scroll */}
-      <AnimatePresence>
-        {showScrollHint && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed right-6 bottom-10 flex flex-col items-center gap-2 pointer-events-none"
-          >
-            <div className="h-16 w-px bg-[#ccc]" />
+        <AnimatePresence>
+          {showScrollHint && (
             <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-              className="w-8 h-8 rounded-full border border-[#bbb] flex items-center justify-center text-[#bbb]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col items-center gap-2 mt-4 pointer-events-none"
             >
-              ↓
+              <div className="h-16 w-px bg-[#ccc]" />
+              <motion.div
+                animate={{ y: [0, 6, 0] }}
+                transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+                className="w-8 h-8 rounded-full border border-[#bbb] flex items-center justify-center text-[#bbb]"
+              >
+                ↓
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
 
     </div>
   )
