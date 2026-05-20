@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 import ProjectCard from '@/components/ProjectCard'
 
 const projects = [
@@ -63,8 +64,14 @@ export default function Home() {
       >
         <div className="w-full lg:w-[310px]">
           {/* Square avatar */}
-          <div className="w-full aspect-square rounded-2xl bg-[#e2e0dc] mb-7 overflow-hidden flex items-center justify-center">
-            <span className="text-[12px] text-[#bbb]" style={MONO}>Photo</span>
+          <div className="w-full aspect-square rounded-2xl bg-[#e2e0dc] mb-7 overflow-hidden relative">
+            <Image
+              src="/images/avatar.png"
+              alt="Xiaoming Zhang"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
 
           <h1 className="text-[42px] font-semibold leading-tight text-[#111] mb-5" style={MONO}>
